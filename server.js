@@ -2,6 +2,7 @@ const express = require('express');
 const server = express();
 const cors = require('cors');
 
+server.use(express.json());
 server.use(cors());
 server.set('port', process.env.PORT || 3002);
 server.locals.title = 'Rancid Tomatillo Favorites API';
@@ -34,4 +35,17 @@ server.listen(server.get('port'), () => {
 
 server.get('/api/v1/favoritesList', (request, response) => {
   response.status(200).json(server.locals.favoritesList)
+})
+
+server.post('/api/v1/favoritesList', (request, response) => {
+   server.locals.favoritesList.push(request.body);
+   response.status(201).json(request.body);
+})
+
+server.delete('/api/v1/favoritesList', (request, response) => {
+  server.locals.favoritesList.forEach((movie, i) => {
+    if (movie.id === request.body) {
+      server.locals.favoritesList.splice(i, 1);
+    }})
+  response.status(202).json(request.body);
 })
