@@ -1,6 +1,8 @@
 const express = require('express');
 const server = express();
+const cors = require('cors');
 
+server.use(cors());
 server.set('port', process.env.PORT || 3002);
 server.locals.title = 'Rancid Tomatillo Favorites API';
 server.locals.favoritesList = [
