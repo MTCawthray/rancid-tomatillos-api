@@ -2,6 +2,7 @@ const express = require('express');
 const server = express();
 const cors = require('cors');
 
+
 server.use(express.json());
 server.use(cors());
 server.set('port', process.env.PORT || 3002);
@@ -43,9 +44,10 @@ server.post('/api/v1/favoritesList', (request, response) => {
 })
 
 server.delete('/api/v1/favoritesList', (request, response) => {
-  server.locals.favoritesList.forEach((movie, i) => {
-    if (movie.id === request.body) {
-      server.locals.favoritesList.splice(i, 1);
-    }})
-  response.status(202).json(request.body);
+  console.log('"We made it!", request.body inside delete! --->', request.body)
+  const { id } = request.body
+  console.log(id, '<--dataObj')
+
+    server.locals.favoritesList = server.locals.favoritesList.filter(favorite => parseInt(favorite.id) !== parseInt(id))
+  response.status(202).send("deleted");
 })
